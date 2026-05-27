@@ -1,21 +1,26 @@
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import { getSpending, updateSpending } from "../services/spendingService";
+import { getSpending, updateSpending,  } from "../services/spendingService";
+import { getAllCategories } from "../services/categoryService";
 
 const IndividualSpendingPage = () => {
     const { spendingId } = useParams();
     const [spending, setSpending] = useState<any>(null);
     const [name, setName] = useState("");
     const [amount, setAmount] = useState("");
-    const [category, setCategory] = useState("");
-
+    const [categories, setCategories] = useState([]);
+    const [categoryId, setCategoryId] = useState();
+    
+    const handleCategoryChange = (e:any) => {
+        setCategoryId(e.target.value);
+    };
     const handleUpdate = async(e : any) => {
             e.preventDefault();
     
             const data = {
                 name,
                 amount: Number(amount),
-                category
+                categoryId: Number(categoryId)
             };
             try {
                 await updateSpending(Number(spendingId), data);
@@ -24,17 +29,19 @@ const IndividualSpendingPage = () => {
                 console.error(error);
             }
     };
-
     useEffect(() => {
         const fetchData = async () => {
             if (!spendingId) return;
 
             try {
                 const data = await getSpending(Number(spendingId));
+                const categoryList = await getAllCategories();
                 setSpending(data);
+                setCategories(categoryList);
 
                 setName(data.name);
                 setAmount(data.amount);
+                setCategoryId(data.category.id);
             }catch(error){
                 console.error(error);
             }
@@ -61,12 +68,13 @@ const IndividualSpendingPage = () => {
                     value={amount}
                     onChange={(e) => setAmount(e.target.value)}
                 />
-                <input 
-                    type="text"
-                    placeholder="Category"
-                    value={category}
-                    onChange={(e) => setCategory(e.target.value)}
-                />
+                <select value={categoryId} onChange={handleCategoryChange}>
+                    {categories.map((c:any) => (
+                        <option key={c.id} value={c.id}>
+                            {c.name}
+                        </option>
+                    ))}
+                </select>
                 <button type="submit">Update</button>
             </form>
         </div>

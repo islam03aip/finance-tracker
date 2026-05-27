@@ -40,7 +40,7 @@ public class SpendingController {
 
     @PostMapping("/update/{spendingId:\\d+}")
     public void updateSpending(@PathVariable("spendingId") Integer spendingId, @RequestBody UpdateSpendingPayload payload){
-        this.spendingService.updateSpending(spendingId, payload.name(), payload.amount());
+        this.spendingService.updateSpending(spendingId, payload.name(), payload.amount(), payload.categoryId());
     }
 
     @PostMapping("/delete/{spendingId:\\d+}")

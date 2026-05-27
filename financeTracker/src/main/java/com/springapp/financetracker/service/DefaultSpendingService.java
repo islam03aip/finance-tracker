@@ -45,11 +45,15 @@ public class DefaultSpendingService implements SpendingService {
 
     @Override
     @Transactional
-    public void updateSpending(Integer spendingId, String name, BigDecimal amount) {
+    public void updateSpending(Integer spendingId, String name, BigDecimal amount, Integer categoryId) {
+        Category category = categoryRepository
+                .findById(categoryId)
+                .orElseThrow(() -> new NoSuchElementException("Category not found"));
         this.spendingRepository.findById(spendingId)
                 .ifPresentOrElse(spending -> {
                     spending.setName(name);
                     spending.setAmount(amount);
+                    spending.setCategory(category);
                 }, () -> {
                     throw new NoSuchElementException();
                 });
