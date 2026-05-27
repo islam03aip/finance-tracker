@@ -1,15 +1,15 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import heroImg from './assets/hero.png'
 import { Routes, Route } from 'react-router-dom'
-import SpendingPage from './components/spendingComponent'
+import SpendingsPage from './components/spendingComponent'
+import AddSpending from './pages/AddSpending'
+import IndividualSpendingPage from './pages/IndividualSpending';
 
 function App() {
 
   return (
     <Routes>
-      <Route path="/spending/all" element={<SpendingPage />}/>
+      <Route path="/spending/all" element={<SpendingsPage />}/>
+      <Route path="/spending/create" element={<AddSpending />}/>
+      <Route path="/spending/:spendingId" element={<IndividualSpendingPage />}/>
     </Routes>
   );
 }

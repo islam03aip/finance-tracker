@@ -1,16 +1,21 @@
 package com.springapp.financetracker.controller;
 
+import com.springapp.financetracker.controller.payload.NewCategoryPayload;
 import com.springapp.financetracker.controller.payload.NewSpendingPayload;
+import com.springapp.financetracker.controller.payload.UpdateSpendingPayload;
 import com.springapp.financetracker.entity.Spending;
 import com.springapp.financetracker.service.SpendingService;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.http.HttpResponse;
 import java.util.List;
+import java.util.NoSuchElementException;
 
-@Controller
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("spending")
@@ -19,12 +24,29 @@ public class SpendingController {
     private final SpendingService spendingService;
 
     @GetMapping("/all")
-    public List<Spending> getSpendingList(){
+    public Iterable<Spending> getSpendingList(){
         return this.spendingService.getAllSpending();
     }
 
-//    @PostMapping("/create")
-//    public Spending createSpending(@RequestBody Spending spending){
-//        return spendingService.save(spending);
-//    }
+    @PostMapping("/create")
+    public Spending createSpending(@RequestBody NewSpendingPayload payload){
+        return spendingService.createSpending(payload);
+    }
+
+    @GetMapping("/{spendingId:\\d+}")
+    public Spending getSpending(@PathVariable("spendingId") int spendingId){
+        return this.spendingService.findSpending(spendingId).orElseThrow();
+    }
+
+    @PostMapping("/update/{spendingId:\\d+}")
+    public void updateSpending(@PathVariable("spendingId") Integer spendingId, @RequestBody UpdateSpendingPayload payload){
+        this.spendingService.updateSpending(spendingId, payload.name(), payload.amount());
+    }
+
+    @PostMapping("/delete/{spendingId:\\d+}")
+    public void deleteSpending(@PathVariable("spendingId") int spendingId) {
+        this.spendingService.deleteSpending(spendingId);
+    }
+
+
 }
