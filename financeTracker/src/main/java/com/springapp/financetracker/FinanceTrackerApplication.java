@@ -10,5 +10,4 @@ public class FinanceTrackerApplication {
         SpringApplication.run(FinanceTrackerApplication.class, args);
     }
 
-
 }
