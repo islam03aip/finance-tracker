@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -35,5 +36,12 @@ public class CustomUserService implements DefaultCustomUserService{
         user.setAuthorities(List.of(userRole));
 
         return this.customUserRepository.save(user);
+    }
+
+    @Override
+    public CustomUser findByUsername(String username){
+        return this.customUserRepository
+                .findByUsername(username)
+                .orElseThrow(() -> new RuntimeException(("User not found")));
     }
 }

@@ -4,6 +4,8 @@ import AddSpending from "../pages/AddSpending"
 import IndividualSpendingPage from "../pages/IndividualSpending"
 import HomePage from "../pages/HomePage"
 import RegistrationPage from "../pages/RegisterPage"
+import LoginPage from "../pages/LoginPage"
+import ProfilePage from "../pages/ProfilePage"
 const AppRoutes = () => {
     return (
         <Routes>
@@ -11,6 +13,8 @@ const AppRoutes = () => {
             <Route path="/spending/create" element={<AddSpending />}/>
             <Route path="/spending/:spendingId" element={<IndividualSpendingPage />}/>
             <Route path="/register" element={<RegistrationPage />} />
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/profile" element={<ProfilePage />} />
             <Route path="/" element={<HomePage/>} />
         </Routes>
     )
