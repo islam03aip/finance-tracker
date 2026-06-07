@@ -3,6 +3,8 @@ package com.springapp.financetracker.service;
 import com.springapp.financetracker.controller.payload.NewSpendingPayload;
 import com.springapp.financetracker.entity.Spending;
 import jakarta.persistence.criteria.CriteriaBuilder;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.math.BigDecimal;
 import java.util.List;

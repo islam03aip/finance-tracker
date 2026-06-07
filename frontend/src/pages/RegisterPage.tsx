@@ -1,10 +1,12 @@
 import { useState } from "react"
 import { addUser } from "../services/authService";
+import { useNavigate } from "react-router-dom";
 
 const RegistrationPage = () =>{
     const [username, setUsername] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const navigate = useNavigate();
 
     const handleSubmit = async(e:any) =>{
         e.preventDefault();
@@ -17,7 +19,7 @@ const RegistrationPage = () =>{
 
         try{
             await addUser(data);
-            alert("User added!");
+            navigate("/login");
         } catch(error) {
             console.error(error);
         }

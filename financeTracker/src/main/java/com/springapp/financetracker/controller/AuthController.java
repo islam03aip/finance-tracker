@@ -3,7 +3,6 @@ package com.springapp.financetracker.controller;
 import com.springapp.financetracker.controller.payload.CustomUserLoginPayload;
 import com.springapp.financetracker.controller.payload.NewCustomUserPayload;
 import com.springapp.financetracker.entity.CustomUser;
-import com.springapp.financetracker.repository.CustomUserRepository;
 import com.springapp.financetracker.security.CustomUserDetailsService;
 import com.springapp.financetracker.service.CustomUserService;
 import com.springapp.financetracker.service.JWTservice;
@@ -11,6 +10,7 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -18,10 +18,12 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("api/auth")
-public class CustomUserController {
+public class AuthController {
     private final CustomUserService customUserService;
     private final CustomUserDetailsService customUserDetailsService;
     private final JWTservice jwtService;
@@ -65,6 +67,17 @@ public class CustomUserController {
         return ResponseEntity.ok(user);
     }
 
+    @GetMapping("/status")
+    public ResponseEntity<?> checkAuthStatus(){
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if(auth != null && auth.isAuthenticated() && !(auth instanceof AnonymousAuthenticationToken)){
+            return ResponseEntity.ok(Map.of(
+                    "authenticated", true,
+                    "username", auth.getName()
+            ));
+        }
+        return ResponseEntity.ok(Map.of("authenticated", false));
+    }
     @PostMapping("/logout")
     public ResponseEntity<?> logout(HttpServletResponse response){
         Cookie cookie = new Cookie("accessToken", "");

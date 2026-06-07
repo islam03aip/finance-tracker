@@ -6,17 +6,21 @@ import HomePage from "../pages/HomePage"
 import RegistrationPage from "../pages/RegisterPage"
 import LoginPage from "../pages/LoginPage"
 import ProfilePage from "../pages/ProfilePage"
+import { AuthProvider } from "../context/AuthProvider"
+import ProtectedRoute from "./ProtectedRoute"
 const AppRoutes = () => {
     return (
-        <Routes>
-            <Route path="/spending/all" element={<SpendingsPage />}/>
-            <Route path="/spending/create" element={<AddSpending />}/>
-            <Route path="/spending/:spendingId" element={<IndividualSpendingPage />}/>
-            <Route path="/register" element={<RegistrationPage />} />
-            <Route path="/login" element={<LoginPage />} />
-            <Route path="/profile" element={<ProfilePage />} />
-            <Route path="/" element={<HomePage/>} />
-        </Routes>
+            <Routes>
+                <Route path="/" element={<HomePage/>} />
+                <Route path="/register" element={<RegistrationPage />} />
+                <Route path="/login" element={<LoginPage />} />
+                <Route element={<ProtectedRoute />}>
+                    <Route path="/spending/all" element={<SpendingsPage />}/>
+                    <Route path="/spending/create" element={<AddSpending />}/>
+                    <Route path="/spending/:spendingId" element={<IndividualSpendingPage />}/>
+                    <Route path="/profile" element={<ProfilePage />} />
+                </Route>
+            </Routes>
     )
 }
 

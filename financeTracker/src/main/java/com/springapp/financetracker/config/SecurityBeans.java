@@ -42,7 +42,7 @@ public class SecurityBeans {
                 .csrf(csrf -> csrf.disable())
                 .cors(Customizer.withDefaults())
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/", "/api/auth/register", "/api/auth/login").permitAll()
+                        .requestMatchers("/", "/api/auth/register", "/api/auth/login", "/api/auth/status").permitAll()
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(

@@ -1,14 +1,17 @@
 import { useEffect, useState } from "react"
 import { getReqUser, logout } from "../services/authService";
+import { useNavigate } from "react-router-dom";
+import { AuthProvider, useAuth } from "../context/AuthProvider";
 
 export const ProfilePage = () =>{
     const[username, setUsername] = useState("");
     const[email, setEmail] = useState("");
+    const navigate = useNavigate();
 
     const handleLogout = async() =>{
         try{
             await logout();
-            alert("Logged out!");
+            navigate("/");
         }catch(error){
             console.error(error);
         }
