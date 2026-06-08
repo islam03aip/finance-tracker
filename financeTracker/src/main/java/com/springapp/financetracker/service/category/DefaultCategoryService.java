@@ -1,4 +1,4 @@
-package com.springapp.financetracker.service;
+package com.springapp.financetracker.service.category;
 
 import com.springapp.financetracker.entity.Category;
 import com.springapp.financetracker.repository.CategoryRepository;

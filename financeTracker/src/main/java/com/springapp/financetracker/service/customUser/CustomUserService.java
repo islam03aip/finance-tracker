@@ -1,4 +1,4 @@
-package com.springapp.financetracker.service;
+package com.springapp.financetracker.service.customUser;
 
 import com.springapp.financetracker.controller.payload.NewCustomUserPayload;
 import com.springapp.financetracker.entity.Authority;
@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor

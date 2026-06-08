@@ -1,6 +1,6 @@
 package com.springapp.financetracker.config;
 
-import com.springapp.financetracker.service.JWTservice;
+import com.springapp.financetracker.service.jwt.JWTservice;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

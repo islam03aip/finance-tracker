@@ -2,10 +2,11 @@ import { useEffect, useState } from "react"
 import { getAllSpending } from "../services/spendingService"
 import { Link, useNavigate } from "react-router-dom";
 import { deleteSpending } from "../services/spendingService";
-
+import { Line, LineChart, Tooltip, XAxis, YAxis } from "recharts";
 const SpendingsPage = () => {
     const [spendings, setSpendings] = useState([]);
     const navigate = useNavigate();
+
     const handleDelete = async (id:Number) => {
         try {
             await deleteSpending(Number(id));
@@ -21,10 +22,10 @@ const SpendingsPage = () => {
         };
         fetchData();
     }, []);
-
     return (
         <div>
             <h1>Spendings</h1>
+            
             {spendings.map((s: any) => (
                 <div key={s.id}>
                     <Link to={`/spending/${s.id}`}>
@@ -34,6 +35,19 @@ const SpendingsPage = () => {
                 </div>
             ))}
             <Link to = "/spending/create">Add Spending</Link>
+            <LineChart
+                width={800}
+                height={400}
+                data={spendings}
+            >
+                <XAxis dataKey="createdAt" />
+                <YAxis dataKey="amount" />
+                <Tooltip />
+                <Line 
+                    type="monotone"
+                    dataKey="amount"
+                />
+            </LineChart>
         </div>
     );
 };

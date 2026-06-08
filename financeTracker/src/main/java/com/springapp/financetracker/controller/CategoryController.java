@@ -2,7 +2,7 @@ package com.springapp.financetracker.controller;
 
 import com.springapp.financetracker.controller.payload.UpdateCategoryPayload;
 import com.springapp.financetracker.entity.Category;
-import com.springapp.financetracker.service.CategoryService;
+import com.springapp.financetracker.service.category.CategoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 

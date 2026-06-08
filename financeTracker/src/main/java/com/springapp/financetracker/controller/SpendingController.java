@@ -1,22 +1,11 @@
 package com.springapp.financetracker.controller;
 
-import com.springapp.financetracker.controller.payload.NewCategoryPayload;
 import com.springapp.financetracker.controller.payload.NewSpendingPayload;
 import com.springapp.financetracker.controller.payload.UpdateSpendingPayload;
 import com.springapp.financetracker.entity.Spending;
-import com.springapp.financetracker.service.SpendingService;
-import jakarta.servlet.http.HttpServletResponse;
+import com.springapp.financetracker.service.spending.SpendingService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
-import java.net.http.HttpResponse;
-import java.util.List;
-import java.util.NoSuchElementException;
 
 @RestController
 @RequiredArgsConstructor
