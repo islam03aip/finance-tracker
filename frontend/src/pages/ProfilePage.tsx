@@ -6,11 +6,13 @@ import { AuthProvider, useAuth } from "../context/AuthProvider";
 export const ProfilePage = () =>{
     const[username, setUsername] = useState("");
     const[email, setEmail] = useState("");
+    const {setIsAuthenticated} = useAuth();
     const navigate = useNavigate();
 
     const handleLogout = async() =>{
         try{
             await logout();
+            setIsAuthenticated(false);
             navigate("/");
         }catch(error){
             console.error(error);

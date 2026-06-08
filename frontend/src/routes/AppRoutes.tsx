@@ -8,19 +8,23 @@ import LoginPage from "../pages/LoginPage"
 import ProfilePage from "../pages/ProfilePage"
 import { AuthProvider } from "../context/AuthProvider"
 import ProtectedRoute from "./ProtectedRoute"
+import Header from "../components/header"
 const AppRoutes = () => {
     return (
-            <Routes>
-                <Route path="/" element={<HomePage/>} />
-                <Route path="/register" element={<RegistrationPage />} />
-                <Route path="/login" element={<LoginPage />} />
-                <Route element={<ProtectedRoute />}>
-                    <Route path="/spending/all" element={<SpendingsPage />}/>
-                    <Route path="/spending/create" element={<AddSpending />}/>
-                    <Route path="/spending/:spendingId" element={<IndividualSpendingPage />}/>
-                    <Route path="/profile" element={<ProfilePage />} />
-                </Route>
-            </Routes>
+        <>
+            <Header />
+                <Routes>
+                        <Route path="/" element={<HomePage/>} />
+                        <Route path="/register" element={<RegistrationPage />} />
+                        <Route path="/login" element={<LoginPage />} />
+                        <Route element={<ProtectedRoute />}>
+                            <Route path="/spending/all" element={<SpendingsPage />}/>
+                            <Route path="/spending/create" element={<AddSpending />}/>
+                            <Route path="/spending/:spendingId" element={<IndividualSpendingPage />}/>
+                            <Route path="/profile" element={<ProfilePage />} />
+                        </Route>
+                </Routes>
+        </>
     )
 }
 
