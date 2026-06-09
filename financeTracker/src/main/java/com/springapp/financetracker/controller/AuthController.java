@@ -31,7 +31,6 @@ public class AuthController {
 
     @PostMapping("/register")
     public CustomUser createUser(@RequestBody NewCustomUserPayload payload){
-        System.out.println("Register HIT");
         return this.customUserService.addUser(payload);
     }
 
