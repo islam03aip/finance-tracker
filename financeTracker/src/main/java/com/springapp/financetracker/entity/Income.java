@@ -29,5 +29,5 @@ public class Income {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    CustomUser customUser;
+    private CustomUser user;
 }

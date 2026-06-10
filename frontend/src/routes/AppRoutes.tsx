@@ -9,6 +9,9 @@ import ProfilePage from "../pages/ProfilePage"
 import { AuthProvider } from "../context/AuthProvider"
 import ProtectedRoute from "./ProtectedRoute"
 import Header from "../components/header"
+import IncomePage from "../pages/IncomePage"
+import AddIncomePage from "../pages/AddIncome"
+import IndvidualIncomePage from "../pages/IndvIncomePage"
 const AppRoutes = () => {
     return (
         <>
@@ -22,6 +25,9 @@ const AppRoutes = () => {
                             <Route path="/spending/create" element={<AddSpending />}/>
                             <Route path="/spending/:spendingId" element={<IndividualSpendingPage />}/>
                             <Route path="/profile" element={<ProfilePage />} />
+                            <Route path="/income/all" element={<IncomePage />} />
+                            <Route path="/income/add" element={<AddIncomePage />} />
+                            <Route path="/income/:incomeId" element={<IndvidualIncomePage />} />
                         </Route>
                 </Routes>
         </>
