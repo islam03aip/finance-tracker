@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { addIncome } from "../services/incomeService";
+import { Link } from "react-router-dom";
 
 const AddIncomePage = () =>{
     const [amount, setAmount] = useState("");
@@ -20,17 +21,22 @@ const AddIncomePage = () =>{
     }
 
     return(
-        <form onSubmit={handleSubmit}>
-            <input
-            placeholder="Amount"
-            type="number"
-            value={amount}
-            onChange={(e) => setAmount(e.target.value)}
-            />
-            <button type="submit">
-                Add income
-            </button>
-        </form>
+        <div>
+            <form onSubmit={handleSubmit}>
+                <input
+                placeholder="Amount"
+                type="number"
+                value={amount}
+                onChange={(e) => setAmount(e.target.value)}
+                />
+                <button type="submit">
+                    Add income
+                </button>
+            </form>
+            <Link to="/income/all">
+                Back to Income page
+            </Link>
+        </div>
     )
 }
 

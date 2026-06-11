@@ -1,13 +1,16 @@
 package com.springapp.financetracker.service.spending;
 
 import com.springapp.financetracker.controller.payload.NewSpendingPayload;
+import com.springapp.financetracker.dto.SpendingResponseDto;
 import com.springapp.financetracker.entity.Category;
 import com.springapp.financetracker.entity.CustomUser;
 import com.springapp.financetracker.entity.Spending;
+import com.springapp.financetracker.mapper.SpendingMapper;
 import com.springapp.financetracker.repository.CategoryRepository;
 import com.springapp.financetracker.repository.CustomUserRepository;
 import com.springapp.financetracker.repository.SpendingRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -15,6 +18,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
@@ -24,16 +29,21 @@ public class DefaultSpendingService implements SpendingService {
     private final SpendingRepository spendingRepository;
     private final CategoryRepository categoryRepository;
     private final CustomUserRepository customUserRepository;
+    private final SpendingMapper spendingMapper;
+
 
     @Override
-    public Iterable<Spending> getAllSpending() {
+    public List<SpendingResponseDto> getAllSpending() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        return this.spendingRepository.findByUserUsername(authentication.getName());
+        Iterable<Spending> spendings = this.spendingRepository.findByUserUsername(authentication.getName());
+        List<SpendingResponseDto> result = new ArrayList<>();
+        spendings.forEach(spending -> result.add(spendingMapper.toDto(spending)));
+        return result;
     }
 
     @Override
     @Transactional
-    public Spending createSpending(NewSpendingPayload payload) {
+    public ResponseEntity<SpendingResponseDto> createSpending(NewSpendingPayload payload) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
         CustomUser user = customUserRepository
@@ -51,11 +61,13 @@ public class DefaultSpendingService implements SpendingService {
         spending.setCategory(category);
         spending.setUser(user);
         spending.setCreatedAt(LocalDateTime.now());
-        return spendingRepository.save(spending);
+        spendingRepository.save(spending);
+
+        return ResponseEntity.ok(spendingMapper.toDto(spending));
     }
 
     @Override
-    public Optional<Spending> findSpending(int spendingId) {
+    public ResponseEntity<SpendingResponseDto> findSpending(int spendingId) {
         String username = SecurityContextHolder
                 .getContext()
                 .getAuthentication()
@@ -63,7 +75,8 @@ public class DefaultSpendingService implements SpendingService {
         Spending spending = spendingRepository
                 .findByIdAndUserUsername(spendingId, username)
                 .orElseThrow(() -> new NoSuchElementException("Spending not found"));
-        return this.spendingRepository.findById(spendingId);
+
+        return ResponseEntity.ok(spendingMapper.toDto(spending));
     }
 
     @Override

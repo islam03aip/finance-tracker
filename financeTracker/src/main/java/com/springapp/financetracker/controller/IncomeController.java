@@ -2,12 +2,17 @@ package com.springapp.financetracker.controller;
 
 import com.springapp.financetracker.controller.payload.NewIncomePayload;
 import com.springapp.financetracker.controller.payload.UpdateIncomePayload;
+import com.springapp.financetracker.dto.IncomeResponseDto;
 import com.springapp.financetracker.entity.Income;
 import com.springapp.financetracker.service.income.IncomeService;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import lombok.RequiredArgsConstructor;
+import org.apache.coyote.Response;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -17,18 +22,18 @@ public class IncomeController {
     private final IncomeService incomeService;
 
     @GetMapping("/all")
-    public Iterable<Income> getAllIncome(){
-        return this.incomeService.getAllIncome();
+    public ResponseEntity<List<IncomeResponseDto>> getAllIncome(){
+        return ResponseEntity.ok(this.incomeService.getAllIncome());
     }
 
     @PostMapping("/add")
-    public Income addIncome(@RequestBody NewIncomePayload payload){
-        return this.incomeService.addIncome(payload);
+    public ResponseEntity<IncomeResponseDto> addIncome(@RequestBody NewIncomePayload payload){
+        return ResponseEntity.ok(this.incomeService.addIncome(payload));
     }
 
     @PostMapping("/update/{incomeId:\\d+}")
-    public Income updateIncome(@RequestBody UpdateIncomePayload payload){
-        return this.incomeService.updateIncome(payload);
+    public ResponseEntity<IncomeResponseDto> updateIncome(@RequestBody UpdateIncomePayload payload){
+        return ResponseEntity.ok(this.incomeService.updateIncome(payload));
     }
 
     @PostMapping("/delete/{incomeId:\\d+}")
@@ -37,7 +42,7 @@ public class IncomeController {
     }
 
     @GetMapping("/{incomeId:\\d+}")
-    public Income getIncome(@PathVariable Integer incomeId){
-        return this.incomeService.getIncome(incomeId);
+    public ResponseEntity<IncomeResponseDto> getIncome(@PathVariable Integer incomeId){
+        return ResponseEntity.ok(this.incomeService.getIncome(incomeId));
     }
 }

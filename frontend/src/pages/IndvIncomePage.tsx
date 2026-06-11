@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react"
 import { useParams } from "react-router-dom";
 import { getIncome, updateIncome } from "../services/incomeService";
+import { Link } from "react-router-dom";
 
 const IndvidualIncomePage = () =>{
     const {incomeId} = useParams();
@@ -53,6 +54,9 @@ const IndvidualIncomePage = () =>{
                     </button>
                 </form>
             </div>
+            <Link to="/income/all">
+                Back to Income Page
+            </Link>
         </div>
     )
 }

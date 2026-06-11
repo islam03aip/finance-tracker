@@ -33,6 +33,9 @@ const IncomePage = () =>{
                     <button onClick={() => handleDelete(i.id)}>Delete</button>
                 </div>
             ))}
+            <Link to="/income/add">
+                Add income
+            </Link>
         </div>
     )
 }

@@ -1,8 +1,10 @@
 package com.springapp.financetracker.service.customUser;
 
 import com.springapp.financetracker.controller.payload.NewCustomUserPayload;
+import com.springapp.financetracker.dto.UserResponseDto;
 import com.springapp.financetracker.entity.Authority;
 import com.springapp.financetracker.entity.CustomUser;
+import com.springapp.financetracker.mapper.UserMapper;
 import com.springapp.financetracker.repository.AuthoritiesRepository;
 import com.springapp.financetracker.repository.CustomUserRepository;
 import lombok.RequiredArgsConstructor;
@@ -17,9 +19,10 @@ import java.util.List;
 public class CustomUserService implements DefaultCustomUserService{
     private final CustomUserRepository customUserRepository;
     private final AuthoritiesRepository authoritiesRepository;
+    private final UserMapper userMapper;
 
     @Override
-    public CustomUser addUser(NewCustomUserPayload payload){
+    public UserResponseDto addUser(NewCustomUserPayload payload){
         BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
         CustomUser user = new CustomUser();
 
@@ -34,7 +37,9 @@ public class CustomUserService implements DefaultCustomUserService{
                 .orElseThrow(() -> new RuntimeException("ROLE_USER does not exist"));
         user.setAuthorities(List.of(userRole));
 
-        return this.customUserRepository.save(user);
+        this.customUserRepository.save(user);
+
+        return userMapper.toDto(user);
     }
 
     @Override

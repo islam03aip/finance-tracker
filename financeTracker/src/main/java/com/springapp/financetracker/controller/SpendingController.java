@@ -2,10 +2,14 @@ package com.springapp.financetracker.controller;
 
 import com.springapp.financetracker.controller.payload.NewSpendingPayload;
 import com.springapp.financetracker.controller.payload.UpdateSpendingPayload;
+import com.springapp.financetracker.dto.SpendingResponseDto;
 import com.springapp.financetracker.entity.Spending;
 import com.springapp.financetracker.service.spending.SpendingService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -15,18 +19,18 @@ public class SpendingController {
     private final SpendingService spendingService;
 
     @GetMapping("/all")
-    public Iterable<Spending> getSpendingList(){
-        return this.spendingService.getAllSpending();
+    public ResponseEntity<List<SpendingResponseDto>> getSpendingList(){
+        return ResponseEntity.ok(spendingService.getAllSpending());
     }
 
     @PostMapping("/create")
-    public Spending createSpending(@RequestBody NewSpendingPayload payload){
+    public ResponseEntity<SpendingResponseDto> createSpending(@RequestBody NewSpendingPayload payload){
         return spendingService.createSpending(payload);
     }
 
     @GetMapping("/{spendingId:\\d+}")
-    public Spending getSpending(@PathVariable("spendingId") int spendingId){
-        return this.spendingService.findSpending(spendingId).orElseThrow();
+    public ResponseEntity<SpendingResponseDto> getSpending(@PathVariable("spendingId") int spendingId){
+        return this.spendingService.findSpending(spendingId);
     }
 
     @PostMapping("/update/{spendingId:\\d+}")

@@ -2,8 +2,10 @@ package com.springapp.financetracker.service.income;
 
 import com.springapp.financetracker.controller.payload.NewIncomePayload;
 import com.springapp.financetracker.controller.payload.UpdateIncomePayload;
+import com.springapp.financetracker.dto.IncomeResponseDto;
 import com.springapp.financetracker.entity.CustomUser;
 import com.springapp.financetracker.entity.Income;
+import com.springapp.financetracker.mapper.IncomeMapper;
 import com.springapp.financetracker.repository.CustomUserRepository;
 import com.springapp.financetracker.repository.IncomeRepository;
 import lombok.RequiredArgsConstructor;
@@ -14,6 +16,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.NoSuchElementException;
 
 @Service
@@ -21,10 +25,11 @@ import java.util.NoSuchElementException;
 public class DefaultIncomeService implements IncomeService{
     private final IncomeRepository incomeRepository;
     private final CustomUserRepository customUserRepository;
+    private final IncomeMapper incomeMapper;
 
     @Override
     @Transactional
-    public Income addIncome(NewIncomePayload payload){
+    public IncomeResponseDto addIncome(NewIncomePayload payload){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
         CustomUser user = customUserRepository
@@ -38,23 +43,26 @@ public class DefaultIncomeService implements IncomeService{
 
         this.incomeRepository.save(income);
 
-        return income;
+        return incomeMapper.toDto(income);
     }
 
     @Override
-    public Iterable<Income> getAllIncome(){
+    public List<IncomeResponseDto> getAllIncome(){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
         CustomUser user = customUserRepository
                 .findByUsername(username)
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
-        return this.incomeRepository.findByUserUsername(username);
+        Iterable<Income> incomes = this.incomeRepository.findByUserUsername(username);
+        List<IncomeResponseDto> result = new ArrayList<>();
+        incomes.forEach(income -> result.add(incomeMapper.toDto(income)));
+        return result;
     }
 
     @Override
     @Transactional
-    public Income updateIncome(UpdateIncomePayload payload){
+    public IncomeResponseDto updateIncome(UpdateIncomePayload payload){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
         CustomUser user = customUserRepository
@@ -66,7 +74,7 @@ public class DefaultIncomeService implements IncomeService{
                 .orElseThrow(() -> new NoSuchElementException("Income not found"));
 
         income.setAmount(payload.amount());
-        return income;
+        return incomeMapper.toDto(income);
     }
 
     @Override
@@ -83,14 +91,14 @@ public class DefaultIncomeService implements IncomeService{
     }
 
     @Override
-    public Income getIncome(Integer id){
+    public IncomeResponseDto getIncome(Integer id){
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
 
         Income income = incomeRepository
                 .findByIdAndUserUsername(id, username)
                 .orElseThrow(() -> new RuntimeException("Income not found"));
 
-        return income;
+        return incomeMapper.toDto(income);
     }
 
 }

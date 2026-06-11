@@ -2,6 +2,7 @@ package com.springapp.financetracker.controller;
 
 import com.springapp.financetracker.controller.payload.CustomUserLoginPayload;
 import com.springapp.financetracker.controller.payload.NewCustomUserPayload;
+import com.springapp.financetracker.dto.UserResponseDto;
 import com.springapp.financetracker.entity.CustomUser;
 import com.springapp.financetracker.security.CustomUserDetailsService;
 import com.springapp.financetracker.service.customUser.CustomUserService;
@@ -30,8 +31,8 @@ public class AuthController {
     private final AuthenticationManager authenticationManager;
 
     @PostMapping("/register")
-    public CustomUser createUser(@RequestBody NewCustomUserPayload payload){
-        return this.customUserService.addUser(payload);
+    public ResponseEntity<UserResponseDto> createUser(@RequestBody NewCustomUserPayload payload){
+        return ResponseEntity.ok(this.customUserService.addUser(payload));
     }
 
     @PostMapping("/login")
