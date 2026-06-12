@@ -112,4 +112,22 @@ public class DefaultSpendingService implements SpendingService {
                 .orElseThrow(() -> new NoSuchElementException("Spending not found"));
         this.spendingRepository.deleteById(spending.getId());
     }
+
+    @Override
+    public List<SpendingResponseDto> getSpendingsByCategory(Integer categoryId){
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+
+        categoryRepository
+                .findById(categoryId)
+                .orElseThrow(() -> new NoSuchElementException("Category not found"));
+
+        List<Spending> spendings = spendingRepository
+                .findByCategoryIdAndUserUsername(categoryId, username);
+
+//        List<SpendingResponseDto> result = new ArrayList<>();
+//        spendings.forEach(spending -> result.add(spendingMapper.toDto(spending)));
+        return spendings.stream()
+                .map(spendingMapper::toDto)
+                .toList();
+    }
 }

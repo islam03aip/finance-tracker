@@ -15,4 +15,5 @@ public interface SpendingService {
     void updateSpending(Integer id, String name, BigDecimal amount, Integer categoryId);
     ResponseEntity<SpendingResponseDto> findSpending(int spendingId);
     void deleteSpending(int spendingId);
+    List<SpendingResponseDto> getSpendingsByCategory(Integer categoryId);
 }

@@ -1,0 +1,38 @@
+body {
+    margin: 0;
+    font-family: "Segoe UI", sans-serif;
+}
+
+.loginContainer{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.loginForm{
+    display: flex;
+    flex-direction: column;
+    gap: 1vh;
+    max-width: 400px;
+    width: 100%;
+}
+.loginInput{
+    padding: 1vh;
+}
+
+.loginButton{
+    background-color: black;
+    color:white;
+    cursor: pointer;
+    padding: 1vh;
+    border: none;
+    transition: 0.2s ease;
+}
+
+.loginButton:hover{
+    background-color: rgb(32, 32, 32);
+}
+
+.loginButton:active{
+    transform: scale(0.98);
+}

@@ -19,3 +19,7 @@ export const getSpending = async (spendingId: number) => {
 export const deleteSpending = async (spendingId: number) => {
     await api.post(`/spending/delete/${spendingId}`);
 };
+export const getSpendingsByCategory = async(categoryId: number) => {
+    const response = await api.get(`spending/category/${categoryId}`);
+    return response.data;
+}

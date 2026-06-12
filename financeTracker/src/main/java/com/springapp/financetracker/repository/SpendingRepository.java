@@ -9,4 +9,5 @@ import java.util.Optional;
 public interface SpendingRepository extends CrudRepository<Spending, Integer> {
     List<Spending> findByUserUsername(String username);
     Optional<Spending> findByIdAndUserUsername(Integer id, String username);
+    List<Spending> findByCategoryIdAndUserUsername(Integer id, String username);
 }

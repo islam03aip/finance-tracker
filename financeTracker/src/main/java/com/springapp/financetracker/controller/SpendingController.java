@@ -43,5 +43,9 @@ public class SpendingController {
         this.spendingService.deleteSpending(spendingId);
     }
 
+    @GetMapping("/all/category/{categoryId:\\d+}")
+    public ResponseEntity<List<SpendingResponseDto>> getSpendingsByCategory(Integer categoryId){
+        return ResponseEntity.ok(this.spendingService.getSpendingsByCategory(categoryId));
+    }
 
 }

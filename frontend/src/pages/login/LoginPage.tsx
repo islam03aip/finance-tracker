@@ -1,26 +1,28 @@
 import { useState } from "react"
-import { addUser } from "../services/authService";
+import { loginUser } from "../../services/authService";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../context/AuthProvider";
+import "./loginPage.css";
 
-const RegistrationPage = () =>{
+const LoginPage = () => {
     const [username, setUsername] = useState("");
-    const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const {setIsAuthenticated} = useAuth();
     const navigate = useNavigate();
 
-    const handleSubmit = async(e:any) =>{
+    const handleSubmit = async(e:any) => {
         e.preventDefault();
 
-        const data = {
+        const data={
             username,
-            email,
             password
-        };
+        }
 
         try{
-            await addUser(data);
-            navigate("/login");
-        } catch(error) {
+            await loginUser(data);
+            setIsAuthenticated(true);
+            navigate("/");
+        }catch(error){
             console.error(error);
         }
     }
@@ -36,21 +38,17 @@ const RegistrationPage = () =>{
                 />
                 <input 
                     className="loginInput"
-                    type="text"
-                    placeholder="Email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}/>
-                <input
-                    className="loginInput" 
                     type="password"
                     placeholder="Password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                 />
-                <button className="loginButton" type="submit">Register</button>
+                <button className="loginButton" type="submit">
+                    Login
+                </button>
             </form>
         </div>
-
     );
 };
-export default RegistrationPage;
+
+export default LoginPage;
