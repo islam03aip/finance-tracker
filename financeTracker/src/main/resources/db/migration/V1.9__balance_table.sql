@@ -1,0 +1,5 @@
+CREATE TABLE IF NOT EXISTS transactions.t_balance(
+    id INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    c_amount NUMERIC(19,2) NOT NULL,
+    user_id INTEGER NOT NULL REFERENCES users.t_user(id)
+);
